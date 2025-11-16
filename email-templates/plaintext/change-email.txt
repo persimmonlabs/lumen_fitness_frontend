@@ -1,0 +1,21 @@
+LUMEN - Confirm Your New Email
+════════════════════════════════
+
+You recently requested to change your email address.
+
+Please confirm your new email to complete the change:
+
+{{ .ConfirmationURL }}
+
+⚠️ IMPORTANT:
+If you didn't request this email change, please contact our support team immediately to secure your account.
+
+Your current email address will remain active until you confirm this change.
+
+───────────────────────────────────────────
+
+© 2025 Lumen. All rights reserved.
+
+Terms: https://sharpened.cc/terms
+Privacy: https://sharpened.cc/privacy
+Support: https://sharpened.cc/support

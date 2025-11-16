@@ -1,0 +1,17 @@
+LUMEN - Welcome!
+═════════════════
+
+Thanks for signing up for Lumen!
+
+To get started with AI-powered nutrition tracking, please confirm your email address:
+
+{{ .ConfirmationURL }}
+
+If you didn't create an account, you can safely ignore this email.
+
+───────────────────────────────────────────
+
+© 2025 Lumen. All rights reserved.
+
+Terms: https://sharpened.cc/terms
+Privacy: https://sharpened.cc/privacy

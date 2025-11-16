@@ -1,0 +1,20 @@
+LUMEN - Sign In
+═══════════════
+
+Click the link below to sign in to your account:
+
+{{ .ConfirmationURL }}
+
+⚠️ SECURITY NOTE:
+For security, this link will only work once. If you need to sign in again, request a new magic link.
+
+This link is valid for 1 hour.
+
+If you didn't request this sign-in link, you can safely ignore this email.
+
+───────────────────────────────────────────
+
+© 2025 Lumen. All rights reserved.
+
+Terms: https://sharpened.cc/terms
+Privacy: https://sharpened.cc/privacy

@@ -1,0 +1,23 @@
+LUMEN - You've Been Invited!
+══════════════════════════════
+
+{{ .InviterEmail }} has invited you to join Lumen, the AI-powered nutrition tracking platform.
+
+Click below to create your account and start tracking your nutrition with intelligent insights:
+
+{{ .ConfirmationURL }}
+
+WHAT YOU'LL GET:
+• AI-powered nutrition tracking
+• Personalized insights and recommendations
+• Easy meal logging and analysis
+• Progress tracking and goals
+
+If you'd prefer not to join, you can safely ignore this email.
+
+───────────────────────────────────────────
+
+© 2025 Lumen. All rights reserved.
+
+Terms: https://sharpened.cc/terms
+Privacy: https://sharpened.cc/privacy
