@@ -104,8 +104,7 @@ export default function OnboardingPage() {
         }).unwrap()
 
         // Mark onboarding as completed in database
-        const { createClient } = await import('@/lib/supabase')
-        const supabase = createClient()
+        const { supabase } = await import('@/lib/supabase')
         const { data: { user } } = await supabase.auth.getUser()
 
         if (user) {

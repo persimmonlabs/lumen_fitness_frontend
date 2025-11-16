@@ -12,6 +12,13 @@ export const metadata: Metadata = {
   manifest: "/manifest.json",
   keywords: ["nutrition tracking", "meal logging", "AI nutrition", "macro tracking", "diet app", "health app"],
   authors: [{ name: "Lumen" }],
+  icons: {
+    icon: [
+      { url: '/icon.svg', type: 'image/svg+xml' },
+      { url: '/favicon.ico', sizes: 'any' }
+    ],
+    apple: '/apple-icon.png',
+  },
   openGraph: {
     title: "Lumen - AI-Powered Nutrition Tracking",
     description: "Track nutrition effortlessly with AI-powered meal logging",
