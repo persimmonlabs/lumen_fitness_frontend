@@ -13,11 +13,7 @@ export const metadata: Metadata = {
   keywords: ["nutrition tracking", "meal logging", "AI nutrition", "macro tracking", "diet app", "health app"],
   authors: [{ name: "Lumen" }],
   icons: {
-    icon: [
-      { url: '/icon.svg', type: 'image/svg+xml' },
-      { url: '/favicon.ico', sizes: 'any' }
-    ],
-    apple: '/apple-icon.png',
+    icon: '/icon.svg',
   },
   openGraph: {
     title: "Lumen - AI-Powered Nutrition Tracking",
