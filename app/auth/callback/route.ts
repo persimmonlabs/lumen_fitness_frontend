@@ -20,14 +20,28 @@ export async function GET(request: Request) {
       process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
     )
 
-    const { error: sessionError } = await supabase.auth.exchangeCodeForSession(code)
+    const { data: sessionData, error: sessionError } = await supabase.auth.exchangeCodeForSession(code)
 
     if (sessionError) {
       console.error('Session exchange error:', sessionError)
       return NextResponse.redirect(new URL('/login', request.url))
     }
+
+    // Check onboarding status from database
+    if (sessionData?.user) {
+      const { data: userData, error: userError } = await supabase
+        .from('users')
+        .select('onboarding_completed')
+        .eq('id', sessionData.user.id)
+        .single()
+
+      // Redirect to onboarding if not completed
+      if (!userError && !userData?.onboarding_completed) {
+        return NextResponse.redirect(new URL('/onboarding', request.url))
+      }
+    }
   }
 
-  // Redirect to home page after successful authentication
+  // Redirect to home page for existing users
   return NextResponse.redirect(new URL('/home', request.url))
 }

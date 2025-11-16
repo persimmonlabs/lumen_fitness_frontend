@@ -1,6 +1,8 @@
 'use client'
 
 import { WeeklyChart } from "@/components/organisms/WeeklyChart"
+import { Card } from "@/components/atoms/Card"
+import { Alert } from "@/components/atoms/Alert"
 import { useGetWeeklyAnalyticsQuery } from "@/store/api/analyticsApi"
 import { InsightsSkeleton } from "@/components/molecules/LoadingSkeleton"
 import { ErrorState } from "@/components/molecules/ErrorState"
@@ -28,12 +30,12 @@ export default function InsightsPage() {
   const estimatedWeightLoss = Math.abs(weeklyDeficit) / 7700 // 7700 calories ≈ 1 kg
 
   return (
-    <div className="p-6 pb-24">
-      <h2 className="text-2xl font-bold mb-6">Insights</h2>
+    <div className="p-6 pb-24 space-y-6">
+      <h2 className="text-2xl font-bold">Insights</h2>
 
       <WeeklyChart data={weeklyData} />
 
-      <div className="mt-6 bg-ocean-800 rounded-lg p-6">
+      <Card>
         <h3 className="font-semibold mb-4">Progress Summary</h3>
         <div className="space-y-3 text-sm">
           <div className="flex justify-between">
@@ -53,14 +55,16 @@ export default function InsightsPage() {
             </span>
           </div>
         </div>
-      </div>
+      </Card>
 
-      <div className="mt-6 bg-ocean-800/50 rounded-lg p-6 border border-ocean-700">
-        <h3 className="font-semibold mb-2">Keep it up!</h3>
-        <p className="text-sm text-ocean-400">
-          You're making great progress. Stay consistent with your calorie deficit to reach your goals.
-        </p>
-      </div>
+      <Alert variant="info">
+        <div>
+          <p className="font-semibold mb-1">Keep it up!</p>
+          <p className="text-sm">
+            You're making great progress. Stay consistent with your calorie deficit to reach your goals.
+          </p>
+        </div>
+      </Alert>
     </div>
   )
 }

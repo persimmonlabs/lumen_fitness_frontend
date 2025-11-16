@@ -39,8 +39,9 @@ const config: Config = {
         'xl': ['1.5rem', { lineHeight: '2rem' }],
         '2xl': ['1.875rem', { lineHeight: '2.25rem' }],
         '3xl': ['2.25rem', { lineHeight: '2.5rem' }],
-        '4xl': ['3rem', { lineHeight: '1' }],
-        '5xl': ['3.75rem', { lineHeight: '1' }],
+        '4xl': ['3rem', { lineHeight: '1.2' }],
+        '5xl': ['3.75rem', { lineHeight: '1.1' }],
+        '6xl': ['4.5rem', { lineHeight: '1' }],
       },
       borderRadius: {
         lg: '0.75rem',
@@ -49,7 +50,34 @@ const config: Config = {
       },
     },
   },
-  plugins: [require("tailwindcss-animate")],
+  plugins: [
+    require("tailwindcss-animate"),
+    function({ addUtilities }: any) {
+      addUtilities({
+        '.icon-sm': {
+          '@apply w-4 h-4': {},
+        },
+        '.icon-md': {
+          '@apply w-6 h-6': {},
+        },
+        '.icon-lg': {
+          '@apply w-8 h-8': {},
+        },
+        '.icon-xl': {
+          '@apply w-12 h-12': {},
+        },
+        '.text-body-1': {
+          '@apply text-base leading-relaxed': {},
+        },
+        '.text-body-2': {
+          '@apply text-sm leading-relaxed': {},
+        },
+        '.text-caption': {
+          '@apply text-xs leading-normal text-ocean-400': {},
+        },
+      })
+    },
+  ],
 }
 
 export default config

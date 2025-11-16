@@ -95,12 +95,29 @@ export default function OnboardingPage() {
     } else {
       setError(null)
       try {
+        // Save user goals
         await updateGoals({
           goal_type: data.goal,
           calories_target: data.calories,
           protein_target: data.protein,
           starting_weight: data.weight,
         }).unwrap()
+
+        // Mark onboarding as completed in database
+        const { createClient } = await import('@/lib/supabase')
+        const supabase = createClient()
+        const { data: { user } } = await supabase.auth.getUser()
+
+        if (user) {
+          await supabase
+            .from('users')
+            .update({
+              onboarding_completed: true,
+              onboarding_completed_at: new Date().toISOString()
+            })
+            .eq('id', user.id)
+        }
+
         router.push('/home')
       } catch (err: any) {
         console.error('Failed to save onboarding data:', err)

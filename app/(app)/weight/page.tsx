@@ -70,16 +70,19 @@ export default function WeightPage() {
     <div className="min-h-screen bg-ocean-900 pb-20">
       {/* Header */}
       <header className="bg-ocean-800 border-b border-ocean-700 sticky top-0 z-10">
-        <div className="max-w-4xl mx-auto px-4 py-4 flex items-center justify-between">
+        <div className="max-w-4xl mx-auto p-6 flex items-center justify-between">
           <h1 className="text-2xl font-bold">Weight Tracking</h1>
-          <Button onClick={handleOpenModal} size="sm">
-            <PlusIcon className="w-5 h-5 mr-2" />
+          <Button
+            onClick={handleOpenModal}
+            size="sm"
+            leftIcon={<PlusIcon className="icon-md" />}
+          >
             Add Weight
           </Button>
         </div>
       </header>
 
-      <main className="max-w-4xl mx-auto px-4 py-6 space-y-6">
+      <main className="max-w-4xl mx-auto p-6 space-y-6">
         {/* Stats Cards */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
           <WeightStatsCard

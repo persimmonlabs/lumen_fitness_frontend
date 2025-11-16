@@ -4,7 +4,7 @@ import { BudgetCard } from "@/components/organisms/BudgetCard"
 import { MealTimeline } from "@/components/organisms/MealTimeline"
 import { Button } from "@/components/atoms/Button"
 import { UserAvatar } from "@/components/atoms/UserAvatar"
-import { formatDate } from "@/lib/utils"
+import { formatRelativeDate } from "@/lib/utils"
 import { CameraIcon, PencilIcon, MicrophoneIcon } from "@heroicons/react/24/outline"
 import { useRouter } from "next/navigation"
 import { useAppSelector } from "@/store"
@@ -41,7 +41,7 @@ export default function HomePage() {
       <div className="pb-20">
         <header className="p-6 flex items-start justify-between">
           <div className="flex-1">
-            <p className="text-sm text-ocean-400">{formatDate(new Date())}</p>
+            <p className="text-caption">{formatRelativeDate(new Date())}</p>
             <h1 className="text-2xl font-bold mt-1">{getGreeting()}, {firstName}</h1>
           </div>
           <UserAvatar size="md" className="cursor-pointer" onClick={() => router.push('/profile')} />
@@ -65,7 +65,7 @@ export default function HomePage() {
       <div className="pb-20">
         <header className="p-6 flex items-start justify-between">
           <div className="flex-1">
-            <p className="text-sm text-ocean-400">{formatDate(new Date())}</p>
+            <p className="text-caption">{formatRelativeDate(new Date())}</p>
             <h1 className="text-2xl font-bold mt-1">{getGreeting()}, {firstName}</h1>
           </div>
           <UserAvatar size="md" className="cursor-pointer" onClick={() => router.push('/profile')} />
@@ -81,50 +81,52 @@ export default function HomePage() {
     <div className="pb-20">
       <header className="p-6 flex items-start justify-between">
         <div className="flex-1">
-          <p className="text-sm text-ocean-400">{formatDate(new Date())}</p>
+          <p className="text-caption">{formatRelativeDate(new Date())}</p>
           <h1 className="text-2xl font-bold mt-1">{getGreeting()}, {firstName}</h1>
         </div>
         <UserAvatar size="md" className="cursor-pointer" onClick={() => router.push('/profile')} />
       </header>
 
-      <div className="px-6">
+      <div className="px-6 space-y-6">
         <BudgetCard analytics={analytics} />
 
-        <div className="grid grid-cols-3 gap-3 mb-8">
+        <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
           <Button
             size="lg"
-            className="flex-col gap-2 h-auto py-4"
+            className="flex-col gap-2 h-auto py-5"
             onClick={() => router.push('/log')}
           >
-            <CameraIcon className="w-6 h-6" />
-            <span className="text-xs">Photo</span>
+            <CameraIcon className="icon-lg" />
+            <span className="text-xs font-medium">Photo</span>
           </Button>
           <Button
             size="lg"
             variant="secondary"
-            className="flex-col gap-2 h-auto py-4"
+            className="flex-col gap-2 h-auto py-5"
             onClick={() => router.push('/log?mode=text')}
           >
-            <PencilIcon className="w-6 h-6" />
-            <span className="text-xs">Text</span>
+            <PencilIcon className="icon-lg" />
+            <span className="text-xs font-medium">Text</span>
           </Button>
           <Button
             size="lg"
             variant="secondary"
-            className="flex-col gap-2 h-auto py-4"
+            className="flex-col gap-2 h-auto py-5 col-span-2 md:col-span-1"
             onClick={() => router.push('/log?mode=voice')}
           >
-            <MicrophoneIcon className="w-6 h-6" />
-            <span className="text-xs">Voice</span>
+            <MicrophoneIcon className="icon-lg" />
+            <span className="text-xs font-medium">Voice</span>
           </Button>
         </div>
 
-        <h2 className="text-lg font-semibold mb-4">Today's Meals</h2>
-        {mealsError ? (
-          <ErrorState message="Failed to load meals" />
-        ) : (
-          <MealTimeline meals={meals || []} />
-        )}
+        <div>
+          <h2 className="text-lg font-semibold mb-4">Today's Meals</h2>
+          {mealsError ? (
+            <ErrorState message="Failed to load meals" />
+          ) : (
+            <MealTimeline meals={meals || []} />
+          )}
+        </div>
       </div>
     </div>
   )

@@ -4,6 +4,7 @@ import { useState, useEffect, Suspense } from "react"
 import { useRouter, useSearchParams } from "next/navigation"
 import { Button } from "@/components/atoms/Button"
 import { Input } from "@/components/atoms/Input"
+import { Alert } from "@/components/atoms/Alert"
 import { PhotoCapture } from "@/components/organisms/PhotoCapture"
 import { VoiceRecorder } from "@/components/organisms/VoiceRecorder"
 import { MealConfirm } from "@/components/organisms/MealConfirm"
@@ -199,9 +200,9 @@ function LogPageContent() {
       <p className="text-ocean-400 mb-8">Choose how you'd like to log</p>
 
       {error && (
-        <div className="bg-red-900/20 border border-red-500 rounded-lg p-4 mb-6">
-          <p className="text-red-400 text-sm">{error}</p>
-        </div>
+        <Alert variant="error" className="mb-6">
+          {error}
+        </Alert>
       )}
 
       <div className="space-y-4">
@@ -209,9 +210,9 @@ function LogPageContent() {
           size="lg"
           className="w-full justify-start gap-4"
           onClick={() => setMode('photo')}
+          leftIcon={<CameraIcon className="icon-md" />}
         >
-          <CameraIcon className="w-6 h-6" />
-          <span>Take Photo</span>
+          Take Photo
         </Button>
 
         <Button
@@ -219,9 +220,9 @@ function LogPageContent() {
           variant="secondary"
           className="w-full justify-start gap-4"
           onClick={() => setMode('text')}
+          leftIcon={<PencilIcon className="icon-md" />}
         >
-          <PencilIcon className="w-6 h-6" />
-          <span>Type Description</span>
+          Type Description
         </Button>
 
         <Button
@@ -229,9 +230,9 @@ function LogPageContent() {
           variant="secondary"
           className="w-full justify-start gap-4"
           onClick={() => setMode('voice')}
+          leftIcon={<MicrophoneIcon className="icon-md" />}
         >
-          <MicrophoneIcon className="w-6 h-6" />
-          <span>Voice Description</span>
+          Voice Description
         </Button>
 
         <Button
@@ -239,9 +240,9 @@ function LogPageContent() {
           variant="secondary"
           className="w-full justify-start gap-4"
           onClick={() => setMode('manual')}
+          leftIcon={<DocumentTextIcon className="icon-md" />}
         >
-          <DocumentTextIcon className="w-6 h-6" />
-          <span>Manual Entry</span>
+          Manual Entry
         </Button>
       </div>
     </div>

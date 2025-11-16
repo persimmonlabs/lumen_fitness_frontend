@@ -2,6 +2,7 @@
 
 import { useState } from 'react'
 import { Button } from '@/components/atoms/Button'
+import { Card } from '@/components/atoms/Card'
 import { ChangeEmailForm } from '@/components/molecules/ChangeEmailForm'
 import { ChangePasswordForm } from '@/components/molecules/ChangePasswordForm'
 import { DeleteAccountModal } from '@/components/molecules/DeleteAccountModal'
@@ -43,11 +44,11 @@ export default function SettingsPage() {
   }
 
   return (
-    <div className="p-6 pb-24">
-      <h2 className="text-2xl font-bold mb-6">Settings</h2>
+    <div className="p-6 pb-24 space-y-6">
+      <h2 className="text-2xl font-bold">Settings</h2>
 
       {/* Account Information */}
-      <div className="bg-ocean-800 rounded-lg p-6 mb-6">
+      <Card>
         <h3 className="font-semibold mb-4">Account Information</h3>
         <div className="space-y-3">
           <div className="flex justify-between items-center">
@@ -74,10 +75,10 @@ export default function SettingsPage() {
             </Button>
           </div>
         </div>
-      </div>
+      </Card>
 
       {/* Connected Accounts */}
-      <div className="bg-ocean-800 rounded-lg p-6 mb-6">
+      <Card>
         <h3 className="font-semibold mb-4">Connected Accounts</h3>
         <div className="space-y-3">
           {isGoogleConnected ? (
@@ -138,13 +139,13 @@ export default function SettingsPage() {
             </button>
           )}
         </div>
-        <p className="text-xs text-ocean-500 mt-3">
+        <p className="text-caption mt-3">
           Linking your Google account allows you to sign in with either email/password or Google.
         </p>
-      </div>
+      </Card>
 
       {/* Security */}
-      <div className="bg-ocean-800 rounded-lg p-6 mb-6">
+      <Card>
         <h3 className="font-semibold mb-4">Security</h3>
         <div className="space-y-3">
           <div className="flex justify-between items-center">
@@ -161,30 +162,30 @@ export default function SettingsPage() {
             </Button>
           </div>
         </div>
-      </div>
+      </Card>
 
       {/* Preferences */}
-      <div className="bg-ocean-800 rounded-lg p-6 mb-6">
+      <Card>
         <h3 className="font-semibold mb-4">Notification Preferences</h3>
         <NotificationPreferences />
-      </div>
+      </Card>
 
       {/* Data Management */}
-      <div className="bg-ocean-800 rounded-lg p-6 mb-6">
+      <Card>
         <h3 className="font-semibold mb-4">Data Management</h3>
         <div className="space-y-3">
           <div className="flex justify-between items-center">
             <div>
               <p className="text-sm text-ocean-400">Export Your Data</p>
-              <p className="text-xs text-ocean-500">Download all your data as JSON</p>
+              <p className="text-caption">Download all your data as JSON</p>
             </div>
             <DataExportButton />
           </div>
         </div>
-      </div>
+      </Card>
 
       {/* Danger Zone */}
-      <div className="bg-ocean-800 rounded-lg p-6 border-2 border-red-900/50">
+      <Card variant="outlined" className="border-2 border-red-900/50">
         <h3 className="font-semibold mb-2 text-red-400">Danger Zone</h3>
         <p className="text-sm text-ocean-400 mb-4">
           Irreversible and destructive actions
@@ -193,7 +194,7 @@ export default function SettingsPage() {
           <div className="flex justify-between items-center">
             <div>
               <p className="text-sm text-red-400">Delete Account</p>
-              <p className="text-xs text-ocean-500">
+              <p className="text-caption">
                 Permanently delete your account and all data
               </p>
             </div>
@@ -207,7 +208,7 @@ export default function SettingsPage() {
             </Button>
           </div>
         </div>
-      </div>
+      </Card>
 
       {/* Modals */}
       {showEmailForm && (

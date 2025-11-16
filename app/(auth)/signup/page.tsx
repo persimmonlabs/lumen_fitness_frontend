@@ -6,7 +6,9 @@ import Link from 'next/link'
 import { supabase } from '@/lib/supabase'
 import { Button } from '@/components/atoms/Button'
 import { Input } from '@/components/atoms/Input'
+import { Alert } from '@/components/atoms/Alert'
 import { GoogleAuthButton } from '@/components/molecules/GoogleAuthButton'
+import { CheckCircleIcon } from '@heroicons/react/24/outline'
 
 export default function SignupPage() {
   const router = useRouter()
@@ -64,7 +66,9 @@ export default function SignupPage() {
       <div className="min-h-screen flex items-center justify-center p-6 bg-ocean-950">
         <div className="w-full max-w-md">
           <div className="text-center">
-            <div className="mb-4 text-green-400 text-5xl">✓</div>
+            <div className="mb-4 flex justify-center">
+              <CheckCircleIcon className="w-20 h-20 text-green-400" />
+            </div>
             <h1 className="text-3xl font-bold mb-4">Check Your Email</h1>
             <p className="text-ocean-400 mb-6">
               We&apos;ve sent you a confirmation email. Please check your inbox and click the
@@ -99,14 +103,15 @@ export default function SignupPage() {
 
         <form onSubmit={handleSignup} className="space-y-4">
           {error && (
-            <div className="bg-red-500/10 border border-red-500 text-red-400 px-4 py-3 rounded-lg">
+            <Alert variant="error">
               {error}
-            </div>
+            </Alert>
           )}
 
           <Input
             type="email"
-            placeholder="Email"
+            label="Email"
+            placeholder="you@example.com"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             required
@@ -114,7 +119,9 @@ export default function SignupPage() {
 
           <Input
             type="password"
-            placeholder="Password"
+            label="Password"
+            placeholder="At least 6 characters"
+            helperText="Must be at least 6 characters long"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             required
@@ -122,7 +129,8 @@ export default function SignupPage() {
 
           <Input
             type="password"
-            placeholder="Confirm Password"
+            label="Confirm Password"
+            placeholder="Re-enter your password"
             value={confirmPassword}
             onChange={(e) => setConfirmPassword(e.target.value)}
             required
@@ -159,8 +167,8 @@ export default function SignupPage() {
             </label>
           </div>
 
-          <Button type="submit" size="lg" className="w-full" disabled={loading}>
-            {loading ? 'Creating account...' : 'Sign Up'}
+          <Button type="submit" size="lg" className="w-full" isLoading={loading}>
+            Sign Up
           </Button>
         </form>
 

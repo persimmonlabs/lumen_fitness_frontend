@@ -6,6 +6,7 @@ import Link from 'next/link'
 import { supabase } from '@/lib/supabase'
 import { Button } from '@/components/atoms/Button'
 import { Input } from '@/components/atoms/Input'
+import { Alert } from '@/components/atoms/Alert'
 import { GoogleAuthButton } from '@/components/molecules/GoogleAuthButton'
 
 export default function LoginPage() {
@@ -51,14 +52,15 @@ export default function LoginPage() {
 
         <form onSubmit={handleLogin} className="space-y-4">
           {error && (
-            <div className="bg-red-500/10 border border-red-500 text-red-400 px-4 py-3 rounded-lg">
+            <Alert variant="error">
               {error}
-            </div>
+            </Alert>
           )}
 
           <Input
             type="email"
-            placeholder="Email"
+            label="Email"
+            placeholder="you@example.com"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             required
@@ -66,14 +68,15 @@ export default function LoginPage() {
 
           <Input
             type="password"
-            placeholder="Password"
+            label="Password"
+            placeholder="Enter your password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             required
           />
 
-          <Button type="submit" size="lg" className="w-full" disabled={loading}>
-            {loading ? 'Signing in...' : 'Sign In'}
+          <Button type="submit" size="lg" className="w-full" isLoading={loading}>
+            Sign In
           </Button>
         </form>
 

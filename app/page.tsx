@@ -5,6 +5,7 @@ import { LandingNav } from '@/components/organisms/LandingNav'
 import { Footer } from '@/components/organisms/Footer'
 import { FeatureCard } from '@/components/molecules/FeatureCard'
 import { Button } from '@/components/atoms/Button'
+import { CameraIcon, ChartBarIcon, FireIcon } from '@heroicons/react/24/outline'
 
 export default function Home() {
   return (
@@ -29,13 +30,13 @@ export default function Home() {
 
           {/* CTA Buttons */}
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4 pt-4">
-            <Link href="/signup">
-              <Button size="lg" variant="primary" className="min-w-[200px]">
+            <Link href="/signup" className="min-w-[200px]">
+              <Button size="lg" variant="primary" className="w-full">
                 Get Started
               </Button>
             </Link>
-            <Link href="/login">
-              <Button size="lg" variant="secondary" className="min-w-[200px]">
+            <Link href="/login" className="min-w-[200px]">
+              <Button size="lg" variant="secondary" className="w-full">
                 Sign In
               </Button>
             </Link>
@@ -48,17 +49,17 @@ export default function Home() {
         <div className="max-w-6xl mx-auto">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             <FeatureCard
-              icon="📸"
+              icon={<CameraIcon className="icon-xl" />}
               title="Photo Logging"
               description="Snap a photo, get instant nutrition breakdown"
             />
             <FeatureCard
-              icon="📊"
+              icon={<ChartBarIcon className="icon-xl" />}
               title="Track Progress"
               description="Track your progress with simple, clear charts"
             />
             <FeatureCard
-              icon="🎯"
+              icon={<FireIcon className="icon-xl" />}
               title="Achieve Goals"
               description="Set targets and hit them consistently"
             />

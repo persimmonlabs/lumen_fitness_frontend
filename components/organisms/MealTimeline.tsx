@@ -1,5 +1,9 @@
 import { Meal } from "@/types"
 import { MealCard } from "@/components/molecules/MealCard"
+import { EmptyState } from "@/components/molecules/EmptyState"
+import { PlusCircleIcon } from "@heroicons/react/24/outline"
+import { Button } from "@/components/atoms/Button"
+import { useRouter } from "next/navigation"
 
 interface MealTimelineProps {
   meals: Meal[]
@@ -7,12 +11,20 @@ interface MealTimelineProps {
 }
 
 export function MealTimeline({ meals, onMealClick }: MealTimelineProps) {
+  const router = useRouter()
+
   if (meals.length === 0) {
     return (
-      <div className="text-center py-12 text-ocean-400">
-        <p>No meals logged yet today.</p>
-        <p className="text-sm mt-2">Start by logging your first meal!</p>
-      </div>
+      <EmptyState
+        icon={<PlusCircleIcon className="icon-xl" />}
+        title="No meals logged yet"
+        description="Start tracking your nutrition by logging your first meal"
+        action={
+          <Button onClick={() => router.push('/log')}>
+            Log Your First Meal
+          </Button>
+        }
+      />
     )
   }
 

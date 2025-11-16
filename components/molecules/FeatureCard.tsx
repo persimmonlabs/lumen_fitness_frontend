@@ -1,9 +1,10 @@
 'use client'
 
 import { cn } from '@/lib/utils'
+import { Card } from '@/components/atoms/Card'
 
 interface FeatureCardProps {
-  icon: string
+  icon: React.ReactNode
   title: string
   description: string
   className?: string
@@ -11,14 +12,14 @@ interface FeatureCardProps {
 
 export function FeatureCard({ icon, title, description, className }: FeatureCardProps) {
   return (
-    <div
+    <Card
+      variant="outlined"
       className={cn(
-        "p-6 rounded-lg bg-ocean-800 border border-ocean-700",
-        "text-center space-y-3",
+        "text-center space-y-4 card-hover",
         className
       )}
     >
-      <div className="text-4xl">
+      <div className="text-ocean-400 flex justify-center">
         {icon}
       </div>
       <h3 className="text-lg font-semibold text-white">
@@ -27,6 +28,6 @@ export function FeatureCard({ icon, title, description, className }: FeatureCard
       <p className="text-ocean-300 text-sm leading-relaxed">
         {description}
       </p>
-    </div>
+    </Card>
   )
 }

@@ -22,8 +22,9 @@ export function MealCard({ meal, onClick, className }: MealCardProps) {
     <div
       onClick={onClick}
       className={cn(
-        "bg-ocean-800 rounded-lg p-4 cursor-pointer transition-all",
-        "hover:bg-ocean-700 border border-ocean-700",
+        "bg-ocean-800 rounded-lg p-4 cursor-pointer",
+        "transition-all duration-200 hover:bg-ocean-700 hover:scale-[1.01]",
+        "border border-ocean-700",
         meal.is_draft && "border-amber-500/50",
         className
       )}

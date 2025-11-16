@@ -9,4 +9,44 @@
   body {
     @apply bg-ocean-900 text-white;
   }
+
+  /* Typography improvements */
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-medium;
+  }
+
+  h1 {
+    @apply text-4xl leading-tight;
+  }
+
+  h2 {
+    @apply text-3xl leading-tight;
+  }
+
+  h3 {
+    @apply text-2xl leading-snug;
+  }
+
+  h4 {
+    @apply text-xl leading-snug;
+  }
+
+  h5 {
+    @apply text-lg leading-normal;
+  }
+
+  h6 {
+    @apply text-base leading-normal;
+  }
+}
+
+@layer utilities {
+  /* Smooth micro-interactions */
+  .card-hover {
+    @apply transition-all duration-200 hover:shadow-lg;
+  }
+
+  .interactive {
+    @apply transition-all duration-200 hover:scale-[1.02] active:scale-[0.98];
+  }
 }

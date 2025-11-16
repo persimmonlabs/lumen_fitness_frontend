@@ -1,15 +1,21 @@
 'use client'
 
 import { Button } from '@/components/atoms/Button'
+import { Card } from '@/components/atoms/Card'
 import { useRouter } from 'next/navigation'
 import { supabase } from '@/lib/supabase'
 import { UserAvatar } from '@/components/atoms/UserAvatar'
 import { useAppSelector } from '@/store'
+import { useGetDailyAnalyticsQuery } from '@/store/api/analyticsApi'
 import Link from 'next/link'
 
 export default function ProfilePage() {
   const router = useRouter()
   const { user } = useAppSelector((state) => state.auth)
+
+  // Get goals from daily analytics (targets)
+  const today = new Date().toISOString().split('T')[0]
+  const { data: analytics, isLoading: goalsLoading } = useGetDailyAnalyticsQuery({ date: today })
 
   const handleSignOut = async () => {
     await supabase.auth.signOut()
@@ -23,11 +29,11 @@ export default function ProfilePage() {
   const createdAt = user?.created_at ? new Date(user.created_at).toLocaleDateString() : 'N/A'
 
   return (
-    <div className="p-6 pb-24">
-      <h2 className="text-2xl font-bold mb-6">Profile</h2>
+    <div className="p-6 pb-24 space-y-6">
+      <h2 className="text-2xl font-bold">Profile</h2>
 
       {/* User Avatar and Basic Info */}
-      <div className="bg-ocean-800 rounded-lg p-6 mb-6">
+      <Card variant="elevated">
         <div className="flex items-center gap-4 mb-4">
           <UserAvatar size="lg" />
           <div className="flex-1">
@@ -52,10 +58,10 @@ export default function ProfilePage() {
             <span className="capitalize">{authProvider}</span>
           </div>
         </div>
-      </div>
+      </Card>
 
       {/* User Info */}
-      <div className="bg-ocean-800 rounded-lg p-6 mb-6">
+      <Card>
         <h3 className="font-semibold mb-4">User Info</h3>
         <div className="space-y-2 text-sm">
           <div className="flex justify-between">
@@ -67,36 +73,49 @@ export default function ProfilePage() {
             <span>{userEmail}</span>
           </div>
         </div>
-      </div>
+      </Card>
 
       {/* Goals */}
-      <div className="bg-ocean-800 rounded-lg p-6 mb-6">
+      <Card>
         <h3 className="font-semibold mb-4">Goals</h3>
-        <div className="space-y-2 text-sm">
-          <div className="flex justify-between">
-            <span className="text-ocean-400">Daily Calories</span>
-            <span className="font-mono">1,950</span>
+        {goalsLoading ? (
+          <div className="space-y-2">
+            {[1, 2, 3].map((i) => (
+              <div key={i} className="h-5 bg-ocean-700 rounded animate-pulse" />
+            ))}
           </div>
-          <div className="flex justify-between">
-            <span className="text-ocean-400">Daily Protein</span>
-            <span className="font-mono">225g</span>
+        ) : analytics ? (
+          <>
+            <div className="space-y-2 text-sm">
+              <div className="flex justify-between">
+                <span className="text-ocean-400">Daily Calories</span>
+                <span className="font-mono">{analytics.calories_target?.toLocaleString()}</span>
+              </div>
+              <div className="flex justify-between">
+                <span className="text-ocean-400">Daily Protein</span>
+                <span className="font-mono">{analytics.protein_target}g</span>
+              </div>
+            </div>
+            <Button variant="secondary" size="sm" className="mt-4 w-full">
+              Edit Goals
+            </Button>
+          </>
+        ) : (
+          <div className="space-y-2 text-sm">
+            <div className="flex justify-between">
+              <span className="text-ocean-400">Daily Calories</span>
+              <span className="font-mono">1,950</span>
+            </div>
+            <div className="flex justify-between">
+              <span className="text-ocean-400">Daily Protein</span>
+              <span className="font-mono">225g</span>
+            </div>
           </div>
-          <div className="flex justify-between">
-            <span className="text-ocean-400">Target Weight</span>
-            <span className="font-mono">70 kg</span>
-          </div>
-          <div className="flex justify-between">
-            <span className="text-ocean-400">Goal Type</span>
-            <span>Lose Weight</span>
-          </div>
-        </div>
-        <Button variant="secondary" size="sm" className="mt-4 w-full">
-          Edit Goals
-        </Button>
-      </div>
+        )}
+      </Card>
 
       {/* Quick Actions */}
-      <div className="bg-ocean-800 rounded-lg p-6 mb-6">
+      <Card>
         <h3 className="font-semibold mb-4">Quick Actions</h3>
         <div className="space-y-3">
           <Link href="/weight">
@@ -110,7 +129,7 @@ export default function ProfilePage() {
             </Button>
           </Link>
         </div>
-      </div>
+      </Card>
 
       {/* Sign Out */}
       <Button

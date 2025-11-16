@@ -2,6 +2,7 @@
 
 import { WeeklyAnalytics } from "@/types"
 import { BarChart, Bar, XAxis, YAxis, ResponsiveContainer } from "recharts"
+import { Card } from "@/components/atoms/Card"
 
 interface WeeklyChartProps {
   data: WeeklyAnalytics
@@ -15,23 +16,23 @@ export function WeeklyChart({ data }: WeeklyChartProps) {
   }))
 
   return (
-    <div className="bg-ocean-800 rounded-lg p-6">
+    <Card>
       <h3 className="font-semibold mb-4">Weekly Deficit</h3>
 
       <ResponsiveContainer width="100%" height={200}>
         <BarChart data={chartData}>
           <XAxis
             dataKey="name"
-            stroke="#6FB3D1"
-            style={{ fontSize: '12px' }}
+            className="text-ocean-300"
+            style={{ fontSize: '0.75rem' }}
           />
           <YAxis
-            stroke="#6FB3D1"
-            style={{ fontSize: '12px' }}
+            className="text-ocean-300"
+            style={{ fontSize: '0.75rem' }}
           />
           <Bar
             dataKey="deficit"
-            fill="#4A9BC9"
+            className="fill-ocean-400"
             radius={[4, 4, 0, 0]}
           />
         </BarChart>
@@ -39,14 +40,14 @@ export function WeeklyChart({ data }: WeeklyChartProps) {
 
       <div className="mt-4 grid grid-cols-2 gap-4 text-sm">
         <div>
-          <p className="text-ocean-400">Weekly Avg</p>
+          <p className="text-caption">Weekly Avg</p>
           <p className="font-mono font-semibold">-{Math.round(data.average_deficit)} cal</p>
         </div>
         <div>
-          <p className="text-ocean-400">Target</p>
+          <p className="text-caption">Target</p>
           <p className="font-mono font-semibold">-{Math.round(data.target_deficit)} cal</p>
         </div>
       </div>
-    </div>
+    </Card>
   )
 }
