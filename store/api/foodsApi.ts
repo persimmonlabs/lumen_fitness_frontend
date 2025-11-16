@@ -4,13 +4,15 @@
 
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 import { CommonFood, CustomFood } from '@/types/foods'
+import { supabase } from '@/lib/supabase'
 
 const baseQuery = fetchBaseQuery({
   baseUrl: process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000/api/v1',
-  prepareHeaders: (headers) => {
-    const token = localStorage.getItem('access_token')
-    if (token) {
-      headers.set('Authorization', `Bearer ${token}`)
+  prepareHeaders: async (headers) => {
+    // Get token from Supabase session
+    const { data: { session } } = await supabase.auth.getSession()
+    if (session?.access_token) {
+      headers.set('authorization', `Bearer ${session.access_token}`)
     }
     return headers
   },
