@@ -1,7 +1,10 @@
+'use client'
+
 import type { Metadata } from "next"
 import { Inter, JetBrains_Mono } from "next/font/google"
 import "./globals.css"
 import { Providers } from "./providers"
+import { useEffect } from "react"
 
 const inter = Inter({ subsets: ["latin"], variable: '--font-inter' })
 const jetbrainsMono = JetBrains_Mono({ subsets: ["latin"], variable: '--font-jetbrains-mono' })
@@ -14,6 +17,7 @@ export const metadata: Metadata = {
   authors: [{ name: "Lumen" }],
   icons: {
     icon: '/icon.svg',
+    apple: '/icons/apple-icon-180.png',
   },
   openGraph: {
     title: "Lumen - AI-Powered Nutrition Tracking",
@@ -34,8 +38,29 @@ export default function RootLayout({
 }: {
   children: React.ReactNode
 }) {
+  // Register service worker for PWA functionality
+  useEffect(() => {
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker
+        .register('/sw.js')
+        .then((registration) => {
+          console.log('Service Worker registered:', registration.scope)
+        })
+        .catch((error) => {
+          console.error('Service Worker registration failed:', error)
+        })
+    }
+  }, [])
+
   return (
     <html lang="en" className="dark">
+      <head>
+        {/* Apple Touch Icon */}
+        <link rel="apple-touch-icon" href="/icons/apple-icon-180.png" />
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+        <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+        <meta name="apple-mobile-web-app-title" content="Lumen" />
+      </head>
       <body className={`${inter.variable} ${jetbrainsMono.variable} font-sans bg-ocean-900 text-white`}>
         <Providers>{children}</Providers>
       </body>
