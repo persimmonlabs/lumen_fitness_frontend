@@ -1,5 +1,14 @@
 /**
  * Type definitions for manual meal entry system
+ *
+ * NOTE: These types are for client-side forms and UI.
+ * For backend API contracts, see nutrition.ts which defines
+ * authoritative types matching backend JSON tags exactly.
+ *
+ * Key differences:
+ * - ManualMealItem uses 'food_name' (UI) vs MealItem uses 'name' (API)
+ * - ManualMealItem has 'grams' helper field not sent to backend
+ * - meal_time (UI) vs consumed_at (API)
  */
 
 export interface CommonFood {
@@ -24,12 +33,18 @@ export interface CustomFood {
   created_at: string
 }
 
+/**
+ * Manual meal item for client-side form data
+ * IMPORTANT: When submitting to backend, map to MealItem interface from nutrition.ts
+ * - food_name -> name
+ * - Remove grams field (use quantity + unit instead)
+ */
 export interface ManualMealItem {
   id: string // temporary client-side ID
-  food_name: string
+  food_name: string // Client-side only - map to 'name' for backend
   quantity: number
   unit: string
-  grams: number
+  grams: number // Client-side helper - NOT sent to backend
   calories: number
   protein_g: number
   carbs_g: number

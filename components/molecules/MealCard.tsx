@@ -63,11 +63,13 @@ export function MealCard({ meal, onClick, className }: MealCardProps) {
 
       <div className="flex gap-2 mt-4">
         <div className="text-sm">
+          {/* Backend-calculated total from database triggers */}
           <span className="font-mono font-semibold">{meal.total_calories}</span>
           <span className="text-ocean-400 ml-1">cal</span>
         </div>
         <div className="text-sm">
-          <span className="font-mono font-semibold">{Math.round(meal.total_protein)}</span>
+          {/* Backend-calculated total from database triggers */}
+          <span className="font-mono font-semibold">{Math.round(meal.total_protein_g)}</span>
           <span className="text-ocean-400 ml-1">g protein</span>
         </div>
       </div>

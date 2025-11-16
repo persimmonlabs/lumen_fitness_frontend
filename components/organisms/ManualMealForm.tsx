@@ -44,7 +44,9 @@ export default function ManualMealForm() {
   const [showCustomForm, setShowCustomForm] = useState(false)
   const [editingItem, setEditingItem] = useState<ManualMealItem | null>(null)
 
-  // Calculate totals
+  // NOTE: We display local totals for UI preview only.
+  // The backend will recalculate and store the authoritative totals via database triggers.
+  // This is purely for user feedback before submission.
   const totals: MealTotals = items.reduce(
     (acc, item) => ({
       calories: acc.calories + item.calories,
@@ -134,6 +136,9 @@ export default function ManualMealForm() {
     }
 
     try {
+      // NOTE: We do NOT send total_* fields to the backend.
+      // Database triggers will calculate accurate totals from meal items.
+      // Backend is the single source of truth for nutrition calculations.
       await createMeal({
         meal_type: mealType,
         meal_date: mealDate,
@@ -147,11 +152,8 @@ export default function ManualMealForm() {
           carbs_g: item.carbs_g,
           fat_g: item.fat_g,
         })),
-        total_calories: totals.calories,
-        total_protein_g: totals.protein_g,
-        total_carbs_g: totals.carbs_g,
-        total_fat_g: totals.fat_g,
         manual: true,
+        // total_calories, total_protein_g, etc. REMOVED - backend calculates via triggers
       }).unwrap()
 
       router.push('/dashboard')

@@ -1,36 +1,15 @@
+/**
+ * Re-export nutrition types from dedicated file
+ * @see nutrition.ts for authoritative type definitions matching backend
+ */
+export type { Meal, MealItem, NutritionTotals } from './nutrition'
+export { MACRO_CONSTANTS, mealHasItems, calculateNutritionTotals } from './nutrition'
+
 export interface User {
   id: string
   email: string
   name: string
   created_at: string
-}
-
-export interface Meal {
-  id: string
-  user_id: string
-  eaten_at: string
-  meal_type: MealType
-  photo_url?: string
-  is_draft: boolean
-  draft_status?: 'analyzing' | 'ready' | 'error'
-  items: MealItem[]
-  total_calories: number
-  total_protein: number
-  total_carbs: number
-  total_fat: number
-}
-
-export interface MealItem {
-  id: string
-  description: string
-  quantity: number
-  unit: string
-  grams: number
-  calories: number
-  protein_g: number
-  carbs_g: number
-  fat_g: number
-  ai_confidence?: number
 }
 
 export type MealType = 'breakfast' | 'lunch' | 'dinner' | 'snack'

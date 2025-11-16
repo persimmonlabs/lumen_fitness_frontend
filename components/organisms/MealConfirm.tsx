@@ -16,12 +16,16 @@ interface MealConfirmProps {
 export function MealConfirm({ draft, onConfirm, onCancel }: MealConfirmProps) {
   const [items, setItems] = useState<MealItem[]>(draft.items)
 
+  // NOTE: This is a UI-only preview calculation for immediate user feedback.
+  // When items are confirmed, the backend will recalculate all nutrition values
+  // via database triggers. These client-side calculations are NOT authoritative.
   const updateItemQuantity = (index: number, newGrams: number) => {
     const ratio = newGrams / items[index].grams
     const updated = [...items]
     updated[index] = {
       ...updated[index],
       grams: newGrams,
+      // Proportional scaling for preview only - backend will recalculate accurately
       calories: Math.round(updated[index].calories * ratio),
       protein_g: updated[index].protein_g * ratio,
       carbs_g: updated[index].carbs_g * ratio,
@@ -34,6 +38,9 @@ export function MealConfirm({ draft, onConfirm, onCancel }: MealConfirmProps) {
     setItems(items.filter((_, i) => i !== index))
   }
 
+  // NOTE: This is a temporary UI preview calculation that updates as users edit items.
+  // When the meal is confirmed, the backend will recalculate and store authoritative
+  // totals via database triggers. These client-side totals are NOT persisted.
   const totals = items.reduce(
     (acc, item) => ({
       calories: acc.calories + item.calories,
