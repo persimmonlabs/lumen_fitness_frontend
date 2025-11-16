@@ -1,70 +1,85 @@
 'use client'
 
 import { useState, useEffect } from 'react'
+import { supabase } from '@/lib/supabase'
 
-interface NotificationPreferencesState {
+interface UserSettings {
+  user_id: string
+  notifications_enabled: boolean
   email_notifications: boolean
-  email_daily_summary: boolean
-  email_weekly_report: boolean
-  email_goal_achievements: boolean
-  email_marketing: boolean
-  push_notifications: boolean
-  push_meal_reminders: boolean
+  weekly_reports: boolean
+  theme: string
+  language: string
+  timezone: string
+  created_at: string
+  updated_at: string
 }
 
 export function NotificationPreferences() {
-  const [preferences, setPreferences] = useState<NotificationPreferencesState>({
-    email_notifications: true,
-    email_daily_summary: true,
-    email_weekly_report: false,
-    email_goal_achievements: true,
-    email_marketing: false,
-    push_notifications: false,
-    push_meal_reminders: false,
-  })
+  const [settings, setSettings] = useState<UserSettings | null>(null)
   const [saving, setSaving] = useState(false)
 
-  // Load preferences on mount
+  // Load settings on mount
   useEffect(() => {
-    const loadPreferences = async () => {
+    const loadSettings = async () => {
       try {
-        const response = await fetch('/api/v1/users/me/preferences')
+        const { data: { session } } = await supabase.auth.getSession()
+        if (!session?.access_token) {
+          console.error('No authentication token')
+          return
+        }
+
+        const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000/api/v1'
+        const response = await fetch(`${apiUrl}/user/settings`, {
+          headers: {
+            'Authorization': `Bearer ${session.access_token}`,
+          },
+        })
+
         if (response.ok) {
           const data = await response.json()
-          setPreferences(data)
+          setSettings(data)
         }
       } catch (err) {
-        console.error('Failed to load preferences:', err)
+        console.error('Failed to load settings:', err)
       }
     }
-    loadPreferences()
+    loadSettings()
   }, [])
 
-  const handleToggle = async (key: keyof NotificationPreferencesState) => {
-    const newValue = !preferences[key]
-    setPreferences((prev) => ({ ...prev, [key]: newValue }))
+  const handleToggle = async (key: keyof Pick<UserSettings, 'notifications_enabled' | 'email_notifications' | 'weekly_reports'>) => {
+    if (!settings) return
+
+    const newValue = !settings[key]
+    setSettings((prev) => prev ? ({ ...prev, [key]: newValue }) : null)
 
     // Save to backend
     setSaving(true)
     try {
-      const response = await fetch('/api/v1/users/me/preferences', {
+      const { data: { session } } = await supabase.auth.getSession()
+      if (!session?.access_token) {
+        throw new Error('Not authenticated')
+      }
+
+      const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000/api/v1'
+      const response = await fetch(`${apiUrl}/user/settings`, {
         method: 'PUT',
         headers: {
+          'Authorization': `Bearer ${session.access_token}`,
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          ...preferences,
           [key]: newValue,
         }),
       })
 
       if (!response.ok) {
-        throw new Error('Failed to save preferences')
+        throw new Error('Failed to save settings')
       }
     } catch (err) {
-      console.error('Failed to save preferences:', err)
+      console.error('Failed to save settings:', err)
       // Revert on error
-      setPreferences((prev) => ({ ...prev, [key]: !newValue }))
+      setSettings((prev) => prev ? ({ ...prev, [key]: !newValue }) : null)
     } finally {
       setSaving(false)
     }
@@ -106,59 +121,37 @@ export function NotificationPreferences() {
     </div>
   )
 
+  if (!settings) {
+    return (
+      <div className="space-y-1">
+        <p className="text-sm text-ocean-400">Loading settings...</p>
+      </div>
+    )
+  }
+
   return (
     <div className="space-y-1">
       <div className="mb-4">
-        <p className="text-sm font-semibold text-ocean-300 mb-2">Email Notifications</p>
+        <p className="text-sm font-semibold text-ocean-300 mb-2">Notifications</p>
         <PreferenceToggle
-          label="Enable email notifications"
-          checked={preferences.email_notifications}
+          label="Enable all notifications"
+          description="Master toggle for all notification types"
+          checked={settings.notifications_enabled}
+          onChange={() => handleToggle('notifications_enabled')}
+        />
+        <PreferenceToggle
+          label="Email notifications"
+          description="Receive notifications via email"
+          checked={settings.email_notifications}
           onChange={() => handleToggle('email_notifications')}
+          disabled={!settings.notifications_enabled}
         />
         <PreferenceToggle
-          label="Daily summary"
-          description="Receive a daily summary of your nutrition"
-          checked={preferences.email_daily_summary}
-          onChange={() => handleToggle('email_daily_summary')}
-          disabled={!preferences.email_notifications}
-        />
-        <PreferenceToggle
-          label="Weekly report"
-          description="Get a weekly progress report"
-          checked={preferences.email_weekly_report}
-          onChange={() => handleToggle('email_weekly_report')}
-          disabled={!preferences.email_notifications}
-        />
-        <PreferenceToggle
-          label="Goal achievements"
-          description="Celebrate when you hit your goals"
-          checked={preferences.email_goal_achievements}
-          onChange={() => handleToggle('email_goal_achievements')}
-          disabled={!preferences.email_notifications}
-        />
-        <PreferenceToggle
-          label="Marketing emails"
-          description="Tips, features, and updates"
-          checked={preferences.email_marketing}
-          onChange={() => handleToggle('email_marketing')}
-          disabled={!preferences.email_notifications}
-        />
-      </div>
-
-      <div>
-        <p className="text-sm font-semibold text-ocean-300 mb-2">Push Notifications</p>
-        <PreferenceToggle
-          label="Enable push notifications"
-          description="Only available when installed as PWA"
-          checked={preferences.push_notifications}
-          onChange={() => handleToggle('push_notifications')}
-        />
-        <PreferenceToggle
-          label="Meal reminders"
-          description="Get reminders to log your meals"
-          checked={preferences.push_meal_reminders}
-          onChange={() => handleToggle('push_meal_reminders')}
-          disabled={!preferences.push_notifications}
+          label="Weekly reports"
+          description="Get a weekly progress report via email"
+          checked={settings.weekly_reports}
+          onChange={() => handleToggle('weekly_reports')}
+          disabled={!settings.notifications_enabled || !settings.email_notifications}
         />
       </div>
     </div>
